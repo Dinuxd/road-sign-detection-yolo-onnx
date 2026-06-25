@@ -1,0 +1,72 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# ML data and generated artifacts
+data/
+dataset/
+datasets/
+raw/
+processed/
+outputs/
+output/
+runs/
+logs/
+test_output/
+checkpoints/
+weights/
+artifacts/
+
+# Trained model and binary artifacts
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.keras
+*.h5
+*.joblib
+*.pkl
+*.npy
+*.npz
+*.bin
+*.param
+*.engine
+
+# Keep the final deployable two-stage model artifacts in this portfolio repo.
+!raspberry_pi_twostage_deploy/models/detector_pt/best.pt
+!raspberry_pi_twostage_deploy/models/classifier/best_classifier.onnx
+!raspberry_pi_twostage_deploy/models/classifier/best_classifier.onnx.data
+!raspberry_pi_twostage_deploy/models/detector_ncnn/best_ncnn_model/model.ncnn.bin
+!raspberry_pi_twostage_deploy/models/detector_ncnn/best_ncnn_model/model.ncnn.param
+!raspberry_pi_twostage_deploy/models/detector_ncnn_416/best_ncnn_model/model.ncnn.bin
+!raspberry_pi_twostage_deploy/models/detector_ncnn_416/best_ncnn_model/model.ncnn.param
+
+# Large media datasets
+*.wav
+*.mp3
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.jpg
+*.jpeg
+*.png
+
+# Archives
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+
+# OS and IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

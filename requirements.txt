@@ -1,0 +1,7 @@
+numpy
+opencv-python
+onnxruntime
+pillow
+torch
+torchvision
+ultralytics

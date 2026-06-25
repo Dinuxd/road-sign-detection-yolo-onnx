@@ -1,0 +1,201 @@
+{
+  "test_images": 9062,
+  "raw_predictions": 8251,
+  "accepted_predictions": 1527,
+  "known_gt": 2484,
+  "other_gt": 8880,
+  "tp": 1196,
+  "fp": 331,
+  "fn": 1288,
+  "end_to_end_precision": 0.7832351015062213,
+  "end_to_end_recall": 0.48148148148148145,
+  "end_to_end_f1": 0.5963600099725754,
+  "macro_f1": 0.5945674880982554,
+  "known_detection_coverage": 0.4830917874396135,
+  "other_sign_false_accept_rate": 0.0005630630630630631,
+  "other_sign_reject_rate": 0.9994369369369369,
+  "other_sign_false_accept_predictions": 6,
+  "failure_breakdown": {
+    "fn_missed_known": 1288,
+    "fp_duplicate_or_unmatched": 53,
+    "fp_no_gt_iou50": 267,
+    "fp_other_sign_overlap": 6,
+    "fp_wrong_class": 5
+  },
+  "confusion_by_class": {
+    "no honking": {
+      "no honking": 117
+    },
+    "sls-100": {
+      "sls-100": 105
+    },
+    "sls-15": {
+      "sls-15": 4
+    },
+    "sls-40": {
+      "sls-40": 143
+    },
+    "sls-50": {
+      "sls-50": 75
+    },
+    "sls-60": {
+      "sls-60": 66
+    },
+    "sls-70": {
+      "sls-70": 48
+    },
+    "sls-80": {
+      "sls-80": 62
+    },
+    "tls-c": {
+      "tls-c": 21,
+      "tls-r": 1
+    },
+    "tls-e": {
+      "tls-e": 78,
+      "tls-g": 3
+    },
+    "tls-g": {
+      "tls-g": 361
+    },
+    "tls-r": {
+      "tls-r": 69
+    },
+    "tls-y": {
+      "tls-y": 47,
+      "tls-g": 1
+    }
+  },
+  "per_class": {
+    "tls-g": {
+      "class_name": "tls-g",
+      "tp": 361,
+      "fp": 160,
+      "fn": 469,
+      "precision": 0.6928982725527831,
+      "recall": 0.43493975903614457,
+      "f1": 0.534418948926721,
+      "support": 830
+    },
+    "sls-40": {
+      "class_name": "sls-40",
+      "tp": 143,
+      "fp": 31,
+      "fn": 126,
+      "precision": 0.8218390804597702,
+      "recall": 0.5315985130111525,
+      "f1": 0.6455981941309256,
+      "support": 269
+    },
+    "tls-e": {
+      "class_name": "tls-e",
+      "tp": 78,
+      "fp": 24,
+      "fn": 141,
+      "precision": 0.7647058823529411,
+      "recall": 0.3561643835616438,
+      "f1": 0.4859813084112149,
+      "support": 219
+    },
+    "tls-y": {
+      "class_name": "tls-y",
+      "tp": 47,
+      "fp": 25,
+      "fn": 115,
+      "precision": 0.6527777777777778,
+      "recall": 0.29012345679012347,
+      "f1": 0.4017094017094017,
+      "support": 162
+    },
+    "sls-50": {
+      "class_name": "sls-50",
+      "tp": 75,
+      "fp": 23,
+      "fn": 86,
+      "precision": 0.7653061224489796,
+      "recall": 0.4658385093167702,
+      "f1": 0.5791505791505791,
+      "support": 161
+    },
+    "sls-100": {
+      "class_name": "sls-100",
+      "tp": 105,
+      "fp": 17,
+      "fn": 45,
+      "precision": 0.860655737704918,
+      "recall": 0.7,
+      "f1": 0.7720588235294117,
+      "support": 150
+    },
+    "sls-80": {
+      "class_name": "sls-80",
+      "tp": 62,
+      "fp": 25,
+      "fn": 72,
+      "precision": 0.7126436781609196,
+      "recall": 0.4626865671641791,
+      "f1": 0.5610859728506787,
+      "support": 134
+    },
+    "no honking": {
+      "class_name": "no honking",
+      "tp": 117,
+      "fp": 2,
+      "fn": 17,
+      "precision": 0.9831932773109243,
+      "recall": 0.8731343283582089,
+      "f1": 0.924901185770751,
+      "support": 134
+    },
+    "tls-r": {
+      "class_name": "tls-r",
+      "tp": 69,
+      "fp": 5,
+      "fn": 59,
+      "precision": 0.9324324324324325,
+      "recall": 0.5390625,
+      "f1": 0.6831683168316832,
+      "support": 128
+    },
+    "sls-60": {
+      "class_name": "sls-60",
+      "tp": 66,
+      "fp": 4,
+      "fn": 47,
+      "precision": 0.9428571428571428,
+      "recall": 0.584070796460177,
+      "f1": 0.7213114754098361,
+      "support": 113
+    },
+    "sls-70": {
+      "class_name": "sls-70",
+      "tp": 48,
+      "fp": 0,
+      "fn": 50,
+      "precision": 1.0,
+      "recall": 0.4897959183673469,
+      "f1": 0.6575342465753424,
+      "support": 98
+    },
+    "sls-15": {
+      "class_name": "sls-15",
+      "tp": 4,
+      "fp": 8,
+      "fn": 43,
+      "precision": 0.3333333333333333,
+      "recall": 0.0851063829787234,
+      "f1": 0.13559322033898305,
+      "support": 47
+    },
+    "tls-c": {
+      "class_name": "tls-c",
+      "tp": 21,
+      "fp": 7,
+      "fn": 18,
+      "precision": 0.75,
+      "recall": 0.5384615384615384,
+      "f1": 0.6268656716417911,
+      "support": 39
+    }
+  }
+}

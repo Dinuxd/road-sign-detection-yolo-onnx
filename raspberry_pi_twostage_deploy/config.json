@@ -1,0 +1,30 @@
+{
+  "detector_ncnn": "models/detector_ncnn/best_ncnn_model",
+  "detector_pt": "models/detector_pt/best.pt",
+  "classifier_onnx": "models/classifier/best_classifier.onnx",
+  "classes": [
+    "tls-g",
+    "sls-40",
+    "tls-e",
+    "tls-y",
+    "sls-50",
+    "sls-100",
+    "sls-80",
+    "no honking",
+    "tls-r",
+    "sls-60",
+    "sls-70",
+    "sls-15",
+    "tls-c",
+    "other_sign"
+  ],
+  "reject_class": "other_sign",
+  "classifier_input_size": 224,
+  "imagenet_mean": [0.485, 0.456, 0.406],
+  "imagenet_std": [0.229, 0.224, 0.225],
+  "det_imgsz": 640,
+  "det_conf": 0.15,
+  "det_iou": 0.70,
+  "classifier_threshold": 0.88,
+  "crop_margin": 0.30
+}
