@@ -52,6 +52,8 @@ jobs:
           for path in Path(".").rglob("*"):
               if ".git" in path.parts or not path.is_file() or path.suffix.lower() not in suffixes:
                   continue
+              if path.as_posix() == ".github/workflows/ci.yml":
+                  continue
               text = path.read_text(encoding="utf-8", errors="ignore")
               for pattern in patterns:
                   if pattern.search(text):

@@ -51,7 +51,7 @@ class MetricsConsistencyTests(unittest.TestCase):
         with PER_CLASS_PATH.open("r", newline="", encoding="utf-8") as handle:
             rows = list(csv.DictReader(handle))
 
-        csv_classes = {row["class"] for row in rows}
+        csv_classes = {row["class_name"] for row in rows}
         json_classes = set(self.metrics["per_class"])
 
         self.assertEqual(csv_classes, json_classes)
