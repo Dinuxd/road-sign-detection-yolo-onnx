@@ -1,0 +1,63 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  python-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install lightweight test dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements-dev.txt
+
+      - name: Compile Python files
+        run: python -m compileall training raspberry_pi_twostage_deploy tests
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+  secret-pattern-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Scan for common leaked-secret patterns
+        shell: python
+        run: |
+          import re
+          import sys
+          from pathlib import Path
+
+          patterns = [
+              re.compile(r"trycloudflare\.com", re.IGNORECASE),
+              re.compile(r"postgres://", re.IGNORECASE),
+              re.compile(r"C:\\Users\\", re.IGNORECASE),
+              re.compile(r"Bearer\s+[A-Za-z0-9._-]{12,}", re.IGNORECASE),
+              re.compile(r"password\s*[:=]\s*['\"][^'\"]+['\"]", re.IGNORECASE),
+              re.compile(r"token\s*[:=]\s*['\"][^'\"]+['\"]", re.IGNORECASE),
+          ]
+          suffixes = {".py", ".md", ".json", ".yml", ".yaml", ".sh", ".txt", ".csv"}
+          findings = []
+
+          for path in Path(".").rglob("*"):
+              if ".git" in path.parts or not path.is_file() or path.suffix.lower() not in suffixes:
+                  continue
+              text = path.read_text(encoding="utf-8", errors="ignore")
+              for pattern in patterns:
+                  if pattern.search(text):
+                      findings.append(f"{path}: {pattern.pattern}")
+
+          if findings:
+              print("Potential secret or local-machine reference found:")
+              print("\n".join(findings))
+              sys.exit(1)

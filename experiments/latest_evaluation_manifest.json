@@ -1,0 +1,31 @@
+{
+  "source_metrics_file": "evaluation/latest/metrics.json",
+  "source_failure_cases_file": "evaluation/latest/failure_cases.csv",
+  "source_per_class_file": "evaluation/latest/per_class_metrics.csv",
+  "deployment_config_file": "raspberry_pi_twostage_deploy/config.json",
+  "metrics": {
+    "test_images": 9062,
+    "raw_predictions": 8251,
+    "accepted_predictions": 1527,
+    "known_gt": 2484,
+    "other_gt": 8880,
+    "tp": 1196,
+    "fp": 331,
+    "fn": 1288,
+    "end_to_end_precision": 0.7832351015062213,
+    "end_to_end_recall": 0.48148148148148145,
+    "end_to_end_f1": 0.5963600099725754,
+    "macro_f1": 0.5945674880982554,
+    "known_detection_coverage": 0.4830917874396135,
+    "other_sign_false_accept_rate": 0.0005630630630630631,
+    "other_sign_reject_rate": 0.9994369369369369
+  },
+  "failure_breakdown": {
+    "fn_missed_known": 1288,
+    "fp_duplicate_or_unmatched": 53,
+    "fp_no_gt_iou50": 267,
+    "fp_other_sign_overlap": 6,
+    "fp_wrong_class": 5
+  },
+  "interpretation": "Precision and other-sign rejection are promising for an edge prototype, but recall is low and should not be described as production-ready."
+}

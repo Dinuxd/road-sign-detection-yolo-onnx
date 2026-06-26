@@ -1,0 +1,84 @@
+{
+  "project": "road-sign-detection-yolo-onnx",
+  "purpose": "Two-stage road-sign detection and recognition for Raspberry Pi 4B edge deployment.",
+  "defaults": {
+    "seed": 42,
+    "image_size_detector": 640,
+    "classifier_input_size": 224,
+    "crop_margin": 0.3
+  },
+  "dataset": {
+    "format": "Pascal VOC XML annotations with matching image files",
+    "raw_dataset_committed": false,
+    "generated_dataset_committed": false,
+    "reason": "Raw datasets and generated training folders are excluded from this portfolio repository."
+  },
+  "dataset_split": {
+    "strategy": "grouped_stratified",
+    "script": "training/prepare_twostage_dataset.py",
+    "seed": 42,
+    "grouping_key": "image filename stem after removing trailing letters",
+    "approximate_ratios": {
+      "train": 0.7,
+      "val": 0.2,
+      "test": 0.1
+    },
+    "generated_manifest": "training/road_sign_twostage_dataset/reports/splits.json",
+    "split_manifest_committed": false,
+    "note": "The script writes exact image/xml assignments. That generated manifest was not present in the cleaned repository, so it is not reconstructed here."
+  },
+  "detector_training": {
+    "script": "training/train_twostage_detector.py",
+    "candidate": "pi",
+    "model_reference": "yolo26n.pt",
+    "epochs": 150,
+    "patience": 30,
+    "optimizer": "auto",
+    "deterministic": true,
+    "seed": 42,
+    "augmentation_notes": "Mild color, scale, translation, and mosaic augmentation are configured in the script."
+  },
+  "classifier_training": {
+    "script": "training/train_twostage_classifier.py",
+    "architecture_options": [
+      "mobilenet_v3_small",
+      "mobilenet_v3_large",
+      "efficientnet_b0",
+      "efficientnet_v2_s"
+    ],
+    "default_classifier_subdir": "classifier_crops_14class",
+    "classes": 14,
+    "reject_class": "other_sign",
+    "epochs": 40,
+    "batch_size": 64,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.05,
+    "sampler": "balanced",
+    "samples_per_class": 1000,
+    "monitor": "known_macro_f1",
+    "export": "ONNX"
+  },
+  "proposal_dataset": {
+    "script": "training/build_classifier_proposal_dataset.py",
+    "proposal_fraction": 0.3,
+    "match_iou": 0.5,
+    "seed": 42
+  },
+  "evaluation": {
+    "script": "training/evaluate_twostage_pipeline.py",
+    "latest_output_dir": "evaluation/latest",
+    "iou_threshold": 0.5,
+    "split": "test"
+  },
+  "deployment": {
+    "target_device": "Raspberry Pi 4B",
+    "detector_runtime": "NCNN, with PyTorch .pt fallback",
+    "classifier_runtime": "ONNX Runtime",
+    "config_file": "raspberry_pi_twostage_deploy/config.json",
+    "det_conf": 0.15,
+    "det_iou": 0.7,
+    "classifier_threshold": 0.88,
+    "crop_margin": 0.3
+  }
+}

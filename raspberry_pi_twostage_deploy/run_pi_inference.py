@@ -8,15 +8,30 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Sequence, Tuple
 
-import cv2
 import numpy as np
-import onnxruntime as ort
-from ultralytics import YOLO
 
 
 ROOT = Path(__file__).resolve().parent
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 VIDEO_EXTENSIONS = {".mp4", ".avi", ".mov", ".mkv", ".wmv"}
+
+
+def import_cv2():
+    import cv2
+
+    return cv2
+
+
+def import_onnxruntime():
+    import onnxruntime as ort
+
+    return ort
+
+
+def import_yolo():
+    from ultralytics import YOLO
+
+    return YOLO
 
 
 def load_config(path: Path) -> Dict[str, Any]:
@@ -99,6 +114,7 @@ class OnnxCropClassifier:
         if not model_path.exists():
             raise FileNotFoundError(f"Classifier ONNX not found: {model_path}")
 
+        ort = import_onnxruntime()
         session_options = ort.SessionOptions()
         session_options.intra_op_num_threads = max(1, threads)
         session_options.inter_op_num_threads = 1
@@ -114,6 +130,7 @@ class OnnxCropClassifier:
         self.std = np.array(config["imagenet_std"], dtype=np.float32).reshape(1, 1, 3)
 
     def predict(self, crop_rgb: np.ndarray) -> Dict[str, Any]:
+        cv2 = import_cv2()
         resized = cv2.resize(crop_rgb, (self.input_size, self.input_size), interpolation=cv2.INTER_AREA)
         tensor = resized.astype(np.float32) / 255.0
         tensor = (tensor - self.mean) / self.std
@@ -131,6 +148,7 @@ class OnnxCropClassifier:
 
 
 def draw_label(frame_bgr: np.ndarray, xyxy: Sequence[float], label: str, color: Tuple[int, int, int]) -> None:
+    cv2 = import_cv2()
     x1, y1, x2, y2 = [int(round(value)) for value in xyxy]
     cv2.rectangle(frame_bgr, (x1, y1), (x2, y2), color, 2)
 
@@ -159,6 +177,7 @@ def process_frame(
     config: Dict[str, Any],
     args: argparse.Namespace,
 ) -> Tuple[np.ndarray, List[Dict[str, Any]]]:
+    cv2 = import_cv2()
     frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
     height, width = frame_bgr.shape[:2]
     predict_kwargs: Dict[str, Any] = {
@@ -258,6 +277,7 @@ def run_images(
     config: Dict[str, Any],
     args: argparse.Namespace,
 ) -> None:
+    cv2 = import_cv2()
     image_paths = iter_image_paths(source)
     if not image_paths:
         raise FileNotFoundError(f"No images found at {source}")
@@ -284,6 +304,7 @@ def run_images(
 
 
 def open_video_capture(args: argparse.Namespace) -> cv2.VideoCapture:
+    cv2 = import_cv2()
     source_value: int | str
     if str(args.source).isdigit():
         source_value = int(args.source)
@@ -305,6 +326,7 @@ def run_video_capture(
     config: Dict[str, Any],
     args: argparse.Namespace,
 ) -> None:
+    cv2 = import_cv2()
     capture = open_video_capture(args)
     writer = None
     rows: List[Dict[str, Any]] = []
@@ -362,6 +384,7 @@ def run_picamera(
     config: Dict[str, Any],
     args: argparse.Namespace,
 ) -> None:
+    cv2 = import_cv2()
     from picamera2 import Picamera2
 
     camera = Picamera2()
@@ -422,6 +445,7 @@ def run_picamera(
 
 
 def maybe_write_video_frame(writer, frame_bgr: np.ndarray, args: argparse.Namespace):
+    cv2 = import_cv2()
     if not args.save_video:
         return writer
 
@@ -500,6 +524,7 @@ def main() -> None:
         f"classifier={args.classifier_threshold:.2f}, crop_margin={args.crop_margin:.2f}"
     )
 
+    YOLO = import_yolo()
     detector = YOLO(str(detector_path), task="detect")
     classifier = OnnxCropClassifier(classifier_path, config, args.threads)
 
